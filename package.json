@@ -1,0 +1,35 @@
+{
+  "name": "tcm",
+  "version": "0.0.0",
+  "description": "TestCaseManager CLI and local Web UI prototype.",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "docs",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && vite build",
+    "dev": "vite",
+    "dev:server": "tsx src/cli.ts server",
+    "test": "vitest run --config vitest.config.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.10",
+    "tsx": "^4.21.0",
+    "typescript": "^5.5.3",
+    "vite": "^5.3.4",
+    "vitest": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
