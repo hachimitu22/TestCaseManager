@@ -4,6 +4,9 @@
   "description": "TestCaseManager CLI and local Web UI prototype.",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "tcm": "./dist/src/cli.js"
+  },
   "files": [
     "dist",
     "README.md",

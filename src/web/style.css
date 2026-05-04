@@ -1,0 +1,157 @@
+:root {
+  color: #1f2933;
+  background: #f5f7f8;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  min-height: 40px;
+  border: 1px solid #aeb8c2;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1f2933;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: #357266;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  border-right: 1px solid #d5dde3;
+  background: #ffffff;
+}
+
+.sidebar h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.sidebar p {
+  margin: 4px 0 0;
+  color: #607080;
+}
+
+.suite-list {
+  display: grid;
+  gap: 8px;
+}
+
+.workspace {
+  display: grid;
+  gap: 20px;
+  align-content: start;
+  padding: 24px;
+}
+
+.toolbar,
+.creator {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+}
+
+.creator {
+  grid-template-columns: 1fr 180px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #d5dde3;
+}
+
+.format-fields,
+.case-list {
+  display: grid;
+  gap: 12px;
+}
+
+.format-fields,
+#case-notes,
+#add-case {
+  grid-column: 1 / -1;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #aeb8c2;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1f2933;
+  padding: 10px 12px;
+}
+
+textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.testcase-card {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #d5dde3;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.testcase-card h2,
+.testcase-card p {
+  margin: 0;
+}
+
+.testcase-card span {
+  color: #357266;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.testcase-card pre {
+  overflow-x: auto;
+  margin: 0;
+  padding: 12px;
+  border-radius: 6px;
+  background: #eef2f3;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 760px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #d5dde3;
+  }
+
+  .toolbar,
+  .creator {
+    grid-template-columns: 1fr;
+  }
+}
