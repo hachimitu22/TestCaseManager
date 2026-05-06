@@ -42,11 +42,19 @@
 
 - 最終成果物はファイルとして扱う
 - 出力ファイルはすべて XML 形式とする
+- testsuite はディレクトリとして保存し、メタ情報と直下要素の順序を `suite.xml` に保持する
+- testcase は原則ディレクトリとして保存し、本体を `testcase.xml` に保持する
+- testsuite と testcase のツリー構造とフォルダ構成を一致させる
 - 内部的に DB を利用する場合でも、XML への出力を必須とする
 - Git 管理しやすいファイル構造・差分を意識する
 
 ## テストケース仕様（初版）
 
+- testsuite は子 testsuite を追加可能な入れ子構造として扱う
+- workspace の `storageDir` ルートも testsuite として扱う
+- 同一階層では testsuite と testcase を同じ名前空間で扱い、同名を禁止する
+- 異なる階層では同名の testsuite / testcase を許可する
+- testsuite 削除時は対象 testsuite と配下の子孫 testsuite を削除する
 - テストケース記述方式はケース単位で選択可能
   - AAA 方式
   - Given-When-Then 方式
