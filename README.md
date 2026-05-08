@@ -134,7 +134,7 @@ testsuite を削除すると、対象 testsuite と配下の子孫 testsuite を
 ## 関連ドキュメント
 
 - 詳細設計: [docs/README.md](docs/README.md)
-- 用語定義: [docs/ubiquitous.md](docs/ubiquitous.md)
+- 用語定義: [docs/ubiquitous](docs/ubiquitous/index.md)
 
 ## License
 

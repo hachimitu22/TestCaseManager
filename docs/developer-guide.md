@@ -13,9 +13,13 @@ npm 公開時の最小要件は「作成」「一覧」「保存」です。
 
 ## ユビキタス言語
 
-ユビキタス言語は [../docs/ubiquitous.md](../docs/ubiquitous.md) で管理します。
-用語を追加・変更する場合は、README.md、AGENTS.md、このドキュメント、ユビキタス言語ファイルを同時に更新します。
+ユビキタス言語は [../docs/ubiquitous](../docs/ubiquitous/index.md) で管理します。
+用語を追加・変更する場合は、README.md、AGENTS.md、このドキュメント、ユビキタス言語ドキュメントを同時に更新します。
 `testsuite` と `testcase` は Core Domain、`workspace`、`storageDir`、`tcm.config.json` は CLI とローカルサーバーを動かすための Supporting Concern として扱います。
+
+- [概要と用語対応](../docs/ubiquitous/index.md)
+- [Core Domain](../docs/ubiquitous/core-domain.md)
+- [Supporting Concern](../docs/ubiquitous/supporting-concern.md)
 
 ## CLI
 

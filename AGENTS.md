@@ -68,11 +68,11 @@
 
 ## 用語定義（初版）
 
-ユビキタス言語は [docs/ubiquitous.md](docs/ubiquitous.md) で管理する。
+ユビキタス言語は [docs/ubiquitous](docs/ubiquitous/index.md) で管理する。
 
 ## 実装時の注意
 
 - 仕様変更時は README.md と本ファイル（AGENTS.md）を同時更新する
 - README.md は利用者向けドキュメントとして扱い、Core Domain / Supporting Concern など開発者だけが理解していればよい設計分類は含めない
 - XML の専用タグを追加する場合は、目的と互換性方針を記録する
-- ユビキタス言語に追加・変更があれば、docs/ubiquitous.md と関連ドキュメントへ反映する
+- ユビキタス言語に追加・変更があれば、docs/ubiquitous 配下と関連ドキュメントへ反映する
