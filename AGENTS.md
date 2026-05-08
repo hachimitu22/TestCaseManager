@@ -14,6 +14,7 @@
 - DDD で開発する
 - ユビキタス言語を明確化し、ドキュメントと実装の乖離を防ぐ
 - テストケース作成の過程・理由も成果物として扱える設計を優先する
+- testsuite / testcase は Core Domain、workspace / storageDir / tcm config は支援的な設定・配置概念として扱う
 
 ## MVP（npm 公開時の最小要件）
 
@@ -51,14 +52,15 @@
 ## テストケース仕様（初版）
 
 - testsuite は子 testsuite を追加可能な入れ子構造として扱う
-- workspace の `storageDir` ルートも testsuite として扱う
+- 保存上は workspace の `storageDir` ルートを root testsuite に対応させる
 - 同一階層では testsuite と testcase を同じ名前空間で扱い、同名を禁止する
 - 異なる階層では同名の testsuite / testcase を許可する
 - testsuite 削除時は対象 testsuite と配下の子孫 testsuite を削除する
-- テストケース記述方式はケース単位で選択可能
+- testcase content の種類はケース単位で選択可能
   - AAA 方式
   - Given-When-Then 方式
   - テキスト記述方式
+- testcase format は testcase content の種類を表す呼び名とし、記述方式と本文種類が一致しない組み合わせは扱わない
 - 作成時の根拠情報を保持できるようにする
   - 組み合わせ表
   - 作成過程
@@ -71,5 +73,6 @@
 ## 実装時の注意
 
 - 仕様変更時は README.md と本ファイル（AGENTS.md）を同時更新する
+- README.md は利用者向けドキュメントとして扱い、Core Domain / Supporting Concern など開発者だけが理解していればよい設計分類は含めない
 - XML の専用タグを追加する場合は、目的と互換性方針を記録する
 - ユビキタス言語に追加・変更があれば、docs/ubiquitous.md と関連ドキュメントへ反映する
