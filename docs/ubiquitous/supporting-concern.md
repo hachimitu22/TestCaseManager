@@ -25,6 +25,17 @@ storageDir =
 `storageDir` のルート自体は Core Domain 上の `root testsuite` に対応し、直下に `suite.xml` を持つ。
 
 ```js
+XML 保存 =
+  testsuite OR testcase -> testcase.xml OR suite.xml
+```
+
+`XML 保存` は、この npm パッケージにおける永続化方式である。
+Core Domain の `testsuite` と `testcase` を XML ファイルとして保存し、後から復元できるようにする。
+testsuite はディレクトリとして保存し、メタ情報と直下要素の順序を `suite.xml` に保持する。
+testcase は原則ディレクトリとして保存し、本体を `testcase.xml` に保持する。
+testsuite と testcase のツリー構造とフォルダ構成は一致させる。
+
+```js
 tcm config =
   version
   AND workspaceDir
@@ -58,3 +69,6 @@ tcm config =
 - workspace の `storageDir` ルートは Core Domain 上の root testsuite に対応する。
 - `tcm config` は npm パッケージとしての実行環境を表す設定であり、testcase 管理そのものの成果物ではない。
 - CLI とローカルサーバーは `tcm config` から workspace と `storageDir` を解決する。
+- 最終成果物はファイルとして扱い、XML 形式で保存する。
+- 既存 XML タグの意味は変更しない。
+- XML に専用タグを追加する場合は、目的と互換性方針を記録する。

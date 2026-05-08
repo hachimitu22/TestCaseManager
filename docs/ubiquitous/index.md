@@ -21,7 +21,7 @@ TestCaseManager で使う言葉はこのディレクトリで管理する。
 ### Test Case Management Context
 
 TestCaseManager の MVP で扱う中心の文脈。
-テストケースを作成し、testsuite のツリーとして一覧できる形に整理し、XML ファイルとして保存する。
+テストケースを作成し、testsuite のツリーとして一覧できる形に整理し、後から復元できる成果物として保存する。
 
 この文脈では、作成されたテストケースの本文だけでなく、作成過程や判断理由などの根拠情報も成果物の一部として扱う。
 
@@ -33,15 +33,16 @@ TestCaseManager の MVP で扱う中心の文脈。
 
 | 用語 | 分類 | 実装・保存上の表現 |
 | ---- | ---- | ------------------ |
-| `testsuite` | Core Domain | `Testsuite` 型、`suite.xml`、`<testsuite>` |
-| `root testsuite` | Core Domain | `storageDir` ルートの `suite.xml` |
-| `testsuite child` | Core Domain | `TestsuiteChild` 型、`<testsuite-ref>`、`<testcase-ref>` |
-| `testcase` | Core Domain | `Testcase` 型、`testcase.xml`、`<testcase>` |
-| `testcase format` | Core Domain | `testcase content` の種類。実装・XML 上の識別値は `AAA` / `GWT` / `TEXT` |
-| `根拠情報` | Core Domain | 現時点では `<notes>` に保存 |
+| `testsuite` | Core Domain | `Testsuite` 型 |
+| `root testsuite` | Core Domain | テストケース管理ツリーの起点 |
+| `testsuite child` | Core Domain | `TestsuiteChild` 型 |
+| `testcase` | Core Domain | `Testcase` 型 |
+| `testcase format` | Core Domain | `testcase content` の種類。実装上の識別値は `AAA` / `GWT` / `TEXT` |
+| `根拠情報` | Core Domain | 現時点では `Testcase.notes` に保持 |
 | `workspace` | Supporting Concern | `TcmConfig.workspaceDir` で解決されるディレクトリ |
 | `storageDir` | Supporting Concern | `TcmConfig.storageDir`、既定値は `test-suites` |
 | `tcm config` | Supporting Concern | `TcmConfig` 型、`tcm.config.json` |
+| `XML 保存` | Supporting Concern | `suite.xml`、`testcase.xml`、`<testsuite>`、`<testcase>` |
 
 ## 更新ルール
 
