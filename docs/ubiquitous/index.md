@@ -35,7 +35,7 @@ TestCaseManager の MVP で扱う中心の文脈。
 | ---- | ---- | ------------------ |
 | `testsuite` | Core Domain | `Testsuite` 型 |
 | `root testsuite` | Core Domain | テストケース管理ツリーの起点 |
-| `testsuite child` | Core Domain | `TestsuiteChild` 型 |
+| `testsuite item` | Core Domain | `TestsuiteItem` 型 |
 | `testcase` | Core Domain | `Testcase` 型 |
 | `testcase format` | Core Domain | `testcase content` の種類。実装上の識別値は `AAA` / `GWT` / `TEXT` |
 | `根拠情報` | Core Domain | 現時点では `Testcase.notes` に保持 |

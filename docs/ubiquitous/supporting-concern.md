@@ -1,6 +1,20 @@
 # Supporting Concern
 
+## 概要
+
 Test Case Management Context のうち、npm パッケージやローカルツールとして動かすための設定・配置概念を定義する。
+workspace、storageDir、tcm config、XML 保存を中心に、CLI とローカルサーバーが Core Domain の成果物を扱うための支援的な語を整理する。
+
+## 一覧
+
+|          名称           |                          内容                           |
+| ----------------------- | ------------------------------------------------------- |
+| data workspace          | TestCaseManager が管理するローカル作業領域              |
+| data storageDir         | testsuite と testcase を XML ファイルとして保存する場所 |
+| data XML 保存           | この npm パッケージにおける永続化方式                   |
+| data tcm config         | CLI とローカルサーバーとして動かすための設定            |
+| behavior 初期化する     | `tcm init <dir>` によってローカル作業領域を準備する     |
+| behavior 設定を読み込む | `tcm.config.json` から workspace と保存先を解決する     |
 
 ## data
 
