@@ -1,4 +1,4 @@
-import type { Testcase, TestcaseContent, TestcaseFormat, Testsuite } from "./domain.js";
+import type { Testcase, TestcaseContent, TestcaseFormat, Testsuite, TestsuiteItem } from "./domain.js";
 
 function escapeXml(value: string): string {
   return value
@@ -32,31 +32,43 @@ function getAttribute(xml: string, name: string): string {
   return match ? unescapeXml(match[1]) : "";
 }
 
-function contentToXml(testcase: Testcase): string[] {
+function contentToXml(testcase: Testcase, indent = "    "): string[] {
   if (testcase.format === "AAA") {
     const content = testcase.content as { arrange: string; act: string; assert: string };
     return [
-      "    <content>",
-      tag("arrange", content.arrange, "      "),
-      tag("act", content.act, "      "),
-      tag("assert", content.assert, "      "),
-      "    </content>"
+      `${indent}<content>`,
+      tag("arrange", content.arrange, `${indent}  `),
+      tag("act", content.act, `${indent}  `),
+      tag("assert", content.assert, `${indent}  `),
+      `${indent}</content>`
     ];
   }
 
   if (testcase.format === "GWT") {
     const content = testcase.content as { given: string; when: string; then: string };
     return [
-      "    <content>",
-      tag("given", content.given, "      "),
-      tag("when", content.when, "      "),
-      tag("then", content.then, "      "),
-      "    </content>"
+      `${indent}<content>`,
+      tag("given", content.given, `${indent}  `),
+      tag("when", content.when, `${indent}  `),
+      tag("then", content.then, `${indent}  `),
+      `${indent}</content>`
     ];
   }
 
   const content = testcase.content as { text: string };
-  return ["    <content>", tag("text", content.text, "      "), "    </content>"];
+  return [`${indent}<content>`, tag("text", content.text, `${indent}  `), `${indent}</content>`];
+}
+
+function itemsToXml(items: TestsuiteItem[]): string[] {
+  if (items.length === 0) {
+    return [];
+  }
+
+  return [
+    "  <children>",
+    ...items.map((item) => `    <${item.kind}-ref name="${escapeXml(item.name)}" />`),
+    "  </children>"
+  ];
 }
 
 function parseContent(format: TestcaseFormat, xml: string): TestcaseContent {
@@ -84,17 +96,10 @@ function parseContent(format: TestcaseFormat, xml: string): TestcaseContent {
 export function testsuiteToXml(testsuite: Testsuite): string {
   const lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    `<testsuite id="${escapeXml(testsuite.id)}" name="${escapeXml(testsuite.name)}">`
+    `<testsuite name="${escapeXml(testsuite.name)}">`
   ];
 
-  for (const testcase of testsuite.testcases) {
-    lines.push(`  <testcase id="${escapeXml(testcase.id)}">`);
-    lines.push(tag("title", testcase.title, "    "));
-    lines.push(tag("format", testcase.format, "    "));
-    lines.push(...contentToXml(testcase));
-    lines.push(tag("notes", testcase.notes, "    "));
-    lines.push("  </testcase>");
-  }
+  lines.push(...itemsToXml(testsuite.items));
 
   lines.push("</testsuite>");
   return `${lines.join("\n")}\n`;
@@ -102,23 +107,43 @@ export function testsuiteToXml(testsuite: Testsuite): string {
 
 export function testsuiteFromXml(xml: string): Testsuite {
   const testsuite: Testsuite = {
-    id: getAttribute(xml, "id"),
+    id: "",
     name: getAttribute(xml, "name"),
+    items: [],
     testcases: []
   };
 
-  const testcaseBlocks = xml.matchAll(/<testcase id="([^"]*)">([\s\S]*?)<\/testcase>/g);
-  for (const match of testcaseBlocks) {
-    const block = match[2];
-    const format = getTagValue(block, "format") as TestcaseFormat;
-    testsuite.testcases.push({
-      id: unescapeXml(match[1]),
-      title: getTagValue(block, "title"),
-      format,
-      content: parseContent(format, block),
-      notes: getTagValue(block, "notes")
+  const itemBlocks = xml.matchAll(/<(testsuite|testcase)-ref name="([^"]*)"\s*\/>/g);
+  for (const match of itemBlocks) {
+    testsuite.items.push({
+      kind: match[1] as "testsuite" | "testcase",
+      name: unescapeXml(match[2])
     });
   }
 
   return testsuite;
+}
+
+export function testcaseToXml(testcase: Testcase): string {
+  const lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    "<testcase>",
+    tag("title", testcase.title, "  "),
+    tag("format", testcase.format, "  "),
+    ...contentToXml(testcase, "  "),
+    tag("notes", testcase.notes, "  "),
+    "</testcase>"
+  ];
+  return `${lines.join("\n")}\n`;
+}
+
+export function testcaseFromXml(xml: string): Testcase {
+  const format = getTagValue(xml, "format") as TestcaseFormat;
+  return {
+    id: "",
+    title: getTagValue(xml, "title"),
+    format,
+    content: parseContent(format, xml),
+    notes: getTagValue(xml, "notes")
+  };
 }

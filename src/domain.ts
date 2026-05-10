@@ -26,9 +26,17 @@ export interface Testcase {
   notes: string;
 }
 
+export type TestsuiteItemKind = "testsuite" | "testcase";
+
+export interface TestsuiteItem {
+  kind: TestsuiteItemKind;
+  name: string;
+}
+
 export interface Testsuite {
   id: string;
   name: string;
+  items: TestsuiteItem[];
   testcases: Testcase[];
 }
 
@@ -50,6 +58,7 @@ export function createEmptyTestsuite(id = "default", name = defaultConfig.defaul
   return {
     id,
     name,
-    testcases: []
+    items: [],
+    testcases: [],
   };
 }

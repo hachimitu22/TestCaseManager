@@ -73,7 +73,7 @@ button:hover {
 .creator {
   display: grid;
   gap: 12px;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr auto auto;
   align-items: start;
 }
 
@@ -81,6 +81,25 @@ button:hover {
   grid-template-columns: 1fr 180px;
   padding-bottom: 20px;
   border-bottom: 1px solid #d5dde3;
+}
+
+.child-suites {
+  display: grid;
+  gap: 12px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #d5dde3;
+}
+
+.section-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-header h2 {
+  margin: 0;
+  font-size: 18px;
 }
 
 .format-fields,

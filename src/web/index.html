@@ -20,7 +20,15 @@
         <header class="toolbar">
           <input id="suite-name" aria-label="testsuite name" />
           <button id="save-suite" type="button">Save</button>
+          <button id="delete-suite" type="button">Delete</button>
         </header>
+        <section class="child-suites">
+          <div class="section-header">
+            <h2>Child testsuites</h2>
+            <button id="add-child-suite" type="button">Add child</button>
+          </div>
+          <nav id="child-suite-list" class="suite-list"></nav>
+        </section>
         <section class="creator">
           <input id="case-title" placeholder="testcase title" />
           <select id="case-format" aria-label="testcase format">

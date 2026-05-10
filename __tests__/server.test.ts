@@ -14,7 +14,7 @@ afterEach(() => {
 });
 
 describe("test-suites API", () => {
-  it("creates, saves, and reloads a testsuite", async () => {
+  async function start(): Promise<string> {
     const dir = await mkdtemp(path.join(os.tmpdir(), "tcm-"));
     await initWorkspace(dir, "workspace");
     const app = await createApp({ configDir: dir });
@@ -22,32 +22,72 @@ describe("test-suites API", () => {
     server = app.listen(0);
     await new Promise<void>((resolve) => server!.once("listening", resolve));
     const address = server.address();
-    const baseUrl = `http://127.0.0.1:${typeof address === "object" && address ? address.port : 0}`;
+    return `http://127.0.0.1:${typeof address === "object" && address ? address.port : 0}`;
+  }
+
+  it("creates child testsuites under the root suite", async () => {
+    const baseUrl = await start();
+
+    const childResponse = await fetch(`${baseUrl}/api/root-testsuite/children`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: "checkout" })
+    });
+
+    expect(childResponse.status).toBe(201);
+    await expect(childResponse.json()).resolves.toMatchObject({
+      id: "checkout",
+      name: "checkout",
+      items: [],
+      testcases: []
+    });
+
+    const root = await fetch(`${baseUrl}/api/root-testsuite`);
+    await expect(root.json()).resolves.toMatchObject({
+      id: "",
+      items: [{ kind: "testsuite", name: "checkout" }]
+    });
+
+    const list = await fetch(`${baseUrl}/api/test-suites`);
+    await expect(list.json()).resolves.toEqual([{ id: "checkout", name: "checkout" }]);
+  });
+
+  it("saves testcases as items of a path-based testsuite and deletes subtrees", async () => {
+    const baseUrl = await start();
+    await fetch(`${baseUrl}/api/root-testsuite/children`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: "checkout" })
+    });
 
     const body = {
-      id: "sample",
-      name: "Sample",
+      id: "checkout",
+      name: "checkout",
+      items: [{ kind: "testcase", name: "pay" }],
       testcases: [
         {
-          id: "case-1",
-          title: "Sample testcase",
-          format: "AAA",
-          content: { arrange: "A", act: "B", assert: "C" },
+          id: "checkout/pay",
+          title: "Pay",
+          format: "TEXT",
+          content: { text: "payment succeeds" },
           notes: "created from API"
         }
       ]
     };
 
-    const saveResponse = await fetch(`${baseUrl}/api/test-suites/sample`, {
+    const saveResponse = await fetch(`${baseUrl}/api/test-suites/checkout`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     });
 
     expect(saveResponse.status).toBe(200);
-    await expect(saveResponse.json()).resolves.toEqual(body);
+    await expect(saveResponse.json()).resolves.toMatchObject(body);
 
-    const detail = await fetch(`${baseUrl}/api/test-suites/sample`);
-    await expect(detail.json()).resolves.toEqual(body);
+    const deleteResponse = await fetch(`${baseUrl}/api/test-suites/checkout`, { method: "DELETE" });
+    expect(deleteResponse.status).toBe(204);
+
+    const root = await fetch(`${baseUrl}/api/root-testsuite`);
+    await expect(root.json()).resolves.toMatchObject({ id: "", items: [] });
   });
 });
